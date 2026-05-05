@@ -1,9 +1,9 @@
-const CACHE = 'dias-uteis-v1';
+const CACHE = 'quanto-falta-v1';
 const ASSETS = [
   './index.html',
   './manifest.json',
-  './icon-192.png',
-  './icon-512.png'
+  './icon.svg',
+  './quanto-falta.txt'
 ];
 
 self.addEventListener('install', e => {
@@ -19,6 +19,18 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
+  const url = new URL(e.request.url);
+  // Always try network first for the config txt so edits show up.
+  if (url.pathname.endsWith('/quanto-falta.txt')) {
+    e.respondWith(
+      fetch(e.request).then(r => {
+        const copy = r.clone();
+        caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {});
+        return r;
+      }).catch(() => caches.match(e.request))
+    );
+    return;
+  }
   e.respondWith(
     caches.match(e.request).then(r => r || fetch(e.request))
   );

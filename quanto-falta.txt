@@ -1,0 +1,9 @@
+# Data final da contagem regressiva "Quanto Falta?"
+# Edita a linha abaixo (a primeira linha que não seja comentário nem vazia é usada).
+# Formatos aceites:
+#   YYYY-MM-DD                  (assume 00:00 nesse dia)
+#   YYYY-MM-DDTHH:mm            (com hora e minutos)
+#   YYYY-MM-DDTHH:mm:ss         (com segundos)
+# Exemplo: 2026-07-01T00:00:00
+
+2026-07-01T00:00:00
