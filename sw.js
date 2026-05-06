@@ -2,8 +2,9 @@ const CACHE = 'quanto-falta-v1';
 const ASSETS = [
   './index.html',
   './manifest.json',
-  './icon.svg',
-  './quanto-falta.txt'
+  './config.txt',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
 self.addEventListener('install', e => {
@@ -19,15 +20,10 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  const url = new URL(e.request.url);
-  // Always try network first for the config txt so edits show up.
-  if (url.pathname.endsWith('/quanto-falta.txt')) {
+  // Always try network first for config.txt so changes are picked up
+  if (e.request.url.endsWith('config.txt')) {
     e.respondWith(
-      fetch(e.request).then(r => {
-        const copy = r.clone();
-        caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {});
-        return r;
-      }).catch(() => caches.match(e.request))
+      fetch(e.request).catch(() => caches.match(e.request))
     );
     return;
   }
